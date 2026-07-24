@@ -45,8 +45,8 @@ h1 em { color: #a9c5f4; font-weight: 400; font-style: italic; }
 .hero-copy { margin: 0 4px 8px 0; color: #a7afbd; font-size: 13px; line-height: 1.9; }
 .hero-copy span { color: #7385a3; font: 10px "DM Mono", monospace; letter-spacing: .04em; }
 
-.dashboard { display: grid; grid-template-columns: 292px minmax(0, 1fr); min-height: 600px; border: 1px solid var(--line); background: rgba(8, 14, 34, .58); }
-.control-panel { display: flex; flex-direction: column; padding: 25px 25px 20px; border-right: 1px solid var(--line); background: rgba(3, 8, 23, .35); }
+.dashboard { display: grid; grid-template-columns: 292px minmax(0, 1fr); height: 600px; border: 1px solid var(--line); background: rgba(8, 14, 34, .58); }
+.control-panel { display: flex; flex-direction: column; min-height: 0; padding: 25px 25px 20px; overflow-y: auto; border-right: 1px solid var(--line); background: rgba(3, 8, 23, .35); }
 .panel-heading { display: flex; justify-content: space-between; color: #8193ae; }
 .panel-heading p { margin: 0; color: #d6e0f0; }
 .control-section { padding: 29px 0 25px; border-bottom: 1px solid var(--line); }
@@ -113,7 +113,7 @@ footer span { color: #a5c3f2; margin-left: 7px; }
   .topbar-status { font-size: 8px; }
   .hero { padding: 50px 0 35px; display: block; }
   .hero-copy { margin-top: 22px; }
-  .dashboard { grid-template-columns: 1fr; }
+  .dashboard { grid-template-columns: 1fr; height: auto; }
   .control-panel { border-right: 0; border-bottom: 1px solid var(--line); }
   .control-section { padding: 20px 0; }
   .control-actions { margin-top: 0; padding-top: 20px; }
