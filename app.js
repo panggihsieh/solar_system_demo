@@ -6,6 +6,8 @@ const speedValue = document.querySelector("#speed-value");
 const humanViewButton = document.querySelector("#human-view-button");
 const humanViewIcon = document.querySelector("#human-view-icon");
 const humanSpeedNote = document.querySelector("#human-speed-note");
+const lightViewButton = document.querySelector("#light-view-button");
+const lightSpeedNote = document.querySelector("#light-speed-note");
 const dateValue = document.querySelector("#date-value");
 const playButton = document.querySelector("#play-button");
 const playLabel = document.querySelector("#play-label");
@@ -30,7 +32,7 @@ const planets = [
 
 let simulationDay = 1;
 let playing = true;
-let humanPerspective = false;
+let perspective = "custom";
 let lastFrame = performance.now();
 let renderedPlanets = [];
 const humanIconFrames = [
@@ -47,12 +49,16 @@ function setRangeFill(input) {
 
 function updateControls() {
   const speed = Number(speedControl.value);
-  speedValue.textContent = humanPerspective ? "實時 / REAL TIME" : `${speed.toFixed(1)}×`;
+  const humanPerspective = perspective === "human";
+  const lightPerspective = perspective === "light";
+  speedValue.textContent = humanPerspective ? "實時 / REAL TIME" : lightPerspective ? "光速 / LIGHT SPEED" : `${speed.toFixed(1)}×`;
   dateValue.textContent = `DAY ${String(Math.round(simulationDay)).padStart(3, "0")}`;
   timelineControl.value = Math.round(simulationDay);
   speedControl.disabled = humanPerspective;
   humanViewButton.setAttribute("aria-pressed", String(humanPerspective));
+  lightViewButton.setAttribute("aria-pressed", String(lightPerspective));
   humanSpeedNote.hidden = !humanPerspective;
+  lightSpeedNote.hidden = !lightPerspective;
   setRangeFill(speedControl);
   setRangeFill(timelineControl);
   playButton.classList.toggle("playing", !playing);
@@ -141,7 +147,7 @@ function animate(time) {
   const elapsed = Math.min((time - lastFrame) / 1000, .1);
   lastFrame = time;
   if (playing) {
-    const daysElapsed = humanPerspective
+    const daysElapsed = perspective === "human"
       ? elapsed / 86_400
       : elapsed * Number(speedControl.value) * 12;
     simulationDay = (simulationDay + daysElapsed) % 366;
@@ -151,14 +157,22 @@ function animate(time) {
   requestAnimationFrame(animate);
 }
 
-speedControl.addEventListener("input", updateControls);
+speedControl.addEventListener("input", () => {
+  perspective = "custom";
+  updateControls();
+});
 humanViewButton.addEventListener("click", () => {
-  humanPerspective = !humanPerspective;
+  perspective = perspective === "human" ? "custom" : "human";
+  updateControls();
+});
+lightViewButton.addEventListener("click", () => {
+  perspective = perspective === "light" ? "custom" : "light";
+  if (perspective === "light") speedControl.value = speedControl.max;
   updateControls();
 });
 
 setInterval(() => {
-  if (!humanPerspective) {
+  if (perspective !== "human") {
     humanIconFrame = 0;
     humanViewIcon.src = humanIconFrames[humanIconFrame];
     return;
@@ -178,7 +192,7 @@ resetButton.addEventListener("click", () => {
   simulationDay = 1;
   speedControl.value = 1;
   playing = true;
-  humanPerspective = false;
+  perspective = "custom";
   updateControls();
 });
 [labelsToggle, orbitsToggle].forEach((input) => input.addEventListener("change", draw));

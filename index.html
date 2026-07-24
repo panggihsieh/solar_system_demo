@@ -47,9 +47,14 @@
             </div>
             <input id="speed" type="range" min="0" max="6" step="0.1" value="1" aria-label="動畫速率" />
             <div class="range-scale"><span>靜止 / Still</span><span>光速 / Light speed</span></div>
-            <button class="human-view-button" id="human-view-button" type="button" aria-label="地球人類速度 / Earth human speed" title="地球人類速度 / Earth human speed" aria-pressed="false">
-              <img class="human-view-icon" id="human-view-icon" src="assets/human-awake.png" alt="" />
-            </button>
+            <div class="perspective-buttons" aria-label="速度視角切換">
+              <button class="human-view-button" id="human-view-button" type="button" aria-label="人類視角 / Human view" title="人類視角 / Human view" aria-pressed="false">
+                <img class="human-view-icon" id="human-view-icon" src="assets/human-awake.png" alt="" />
+              </button>
+              <button class="light-view-button" id="light-view-button" type="button" aria-label="光速視角 / Light-speed view" title="光速視角 / Light-speed view" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13.2 2-8 11h5.7L10.8 22l8-12h-5.6z"/></svg>
+              </button>
+            </div>
             <div class="human-speed-note" id="human-speed-note" hidden>
               <p>真實時間：1 秒 = 1 秒；行星公轉在短時間內幾乎不可見。</p>
               <div class="human-speed-data">
@@ -57,6 +62,7 @@
                 <span>繞日公轉 / ORBIT <b>約 107,000 km/h</b></span>
               </div>
             </div>
+            <p class="light-speed-note" id="light-speed-note" hidden>光速視角：以最大動畫速率快速觀察公轉週期。<br />Light-speed view: maximum simulation speed.</p>
           </div>
 
           <div class="control-section timeline-section">
