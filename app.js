@@ -17,10 +17,14 @@ const tooltip = document.querySelector("#planet-tooltip");
 const tooltipName = document.querySelector("#tooltip-name");
 const tooltipDetail = document.querySelector("#tooltip-detail");
 const clock = document.querySelector("#clock");
-const earthRotationCard = document.querySelector("#earth-rotation-card");
 const earthRotationMode = document.querySelector("#earth-rotation-mode");
+const earthRotationCanvas = document.querySelector("#earth-rotation-canvas");
+const earthRotationContext = earthRotationCanvas.getContext("2d");
 const rotatingEarthTexture = new Image();
-rotatingEarthTexture.src = "assets/rotating-earth.gif";
+rotatingEarthTexture.src = "assets/earth-rotation-sprite.webp";
+const earthSpriteFrameSize = 96;
+const earthSpriteColumns = 16;
+const earthSpriteFrames = 240;
 
 const planets = [
   { name: "MERCURY", chineseName: "水星", radius: 0.18, size: 3, period: 88, color: "#a8a29e", start: 2.4 },
@@ -38,6 +42,7 @@ let playing = true;
 let perspective = "custom";
 let lastFrame = performance.now();
 let renderedPlanets = [];
+let earthFrame = 0;
 
 function setRangeFill(input) {
   const percent = ((input.value - input.min) / (input.max - input.min)) * 100;
@@ -56,12 +61,6 @@ function updateControls() {
   lightViewButton.setAttribute("aria-pressed", String(lightPerspective));
   humanSpeedNote.hidden = !humanPerspective;
   lightSpeedNote.hidden = !lightPerspective;
-  const rotationDuration = humanPerspective
-    ? "86400s"
-    : lightPerspective
-      ? "1.2s"
-      : `${Math.max(1.5, 12 / Math.max(speed, .1))}s`;
-  earthRotationCard.style.setProperty("--earth-rotation-speed", rotationDuration);
   earthRotationMode.textContent = humanPerspective ? "REAL TIME" : lightPerspective ? "LIGHT SPEED" : `${speed.toFixed(1)}× SPEED`;
   setRangeFill(speedControl);
   setRangeFill(timelineControl);
@@ -75,6 +74,35 @@ function resizeCanvas() {
   canvas.width = width * ratio;
   canvas.height = height * ratio;
   context.setTransform(ratio, 0, 0, ratio, 0, 0);
+}
+
+function drawEarthFrame(target, x, y, size) {
+  if (!rotatingEarthTexture.complete || !rotatingEarthTexture.naturalWidth) return false;
+  const frameIndex = Math.floor(earthFrame) % earthSpriteFrames;
+  const sourceX = (frameIndex % earthSpriteColumns) * earthSpriteFrameSize;
+  const sourceY = Math.floor(frameIndex / earthSpriteColumns) * earthSpriteFrameSize;
+  target.drawImage(
+    rotatingEarthTexture,
+    sourceX,
+    sourceY,
+    earthSpriteFrameSize,
+    earthSpriteFrameSize,
+    x - size / 2,
+    y - size / 2,
+    size,
+    size,
+  );
+  return true;
+}
+
+function drawEarthRotationObserver() {
+  earthRotationContext.clearRect(0, 0, earthRotationCanvas.width, earthRotationCanvas.height);
+  if (!drawEarthFrame(earthRotationContext, 96, 96, 178)) {
+    earthRotationContext.beginPath();
+    earthRotationContext.arc(96, 96, 70, 0, Math.PI * 2);
+    earthRotationContext.fillStyle = "#438ee6";
+    earthRotationContext.fill();
+  }
 }
 
 function draw() {
@@ -132,12 +160,10 @@ function draw() {
     }
     context.shadowColor = planet.color;
     context.shadowBlur = 9;
-    if (planet.name === "EARTH" && rotatingEarthTexture.complete) {
+    if (planet.name !== "EARTH" || !drawEarthFrame(context, x, y, planet.size * 2.5)) {
       const earthSize = planet.size * 2.5;
-      context.drawImage(rotatingEarthTexture, x - earthSize / 2, y - earthSize / 2, earthSize, earthSize);
-    } else {
       context.beginPath();
-      context.arc(x, y, planet.size, 0, Math.PI * 2);
+      context.arc(x, y, planet.name === "EARTH" ? earthSize / 2 : planet.size, 0, Math.PI * 2);
       context.fillStyle = planet.color;
       context.fill();
     }
@@ -150,6 +176,7 @@ function draw() {
       context.fillText(`${planet.chineseName} / ${planet.name}`, x + planet.size + 7, y - planet.size - 4);
     }
   });
+  drawEarthRotationObserver();
 }
 
 function animate(time) {
@@ -160,6 +187,12 @@ function animate(time) {
       ? elapsed / 86_400
       : elapsed * Number(speedControl.value) * 12;
     simulationDay = (simulationDay + daysElapsed) % 366;
+    const earthFramesPerSecond = perspective === "human"
+      ? earthSpriteFrames / 86_400
+      : perspective === "light"
+        ? 60
+        : Number(speedControl.value) * 8;
+    earthFrame = (earthFrame + elapsed * earthFramesPerSecond) % earthSpriteFrames;
     updateControls();
   }
   draw();
@@ -190,6 +223,7 @@ playButton.addEventListener("click", () => {
 });
 resetButton.addEventListener("click", () => {
   simulationDay = 1;
+  earthFrame = 0;
   speedControl.value = 1;
   playing = true;
   perspective = "custom";
