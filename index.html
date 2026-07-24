@@ -1,0 +1,110 @@
+<!doctype html>
+整<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#070b1b" />
+    <title>ORBITAL / 太陽系</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <nav class="topbar">
+        <a class="brand" href="#" aria-label="Orbital home">
+          <span class="brand-mark"><i></i><i></i><i></i></span>
+          <span>ORBITAL<span class="brand-slash">/</span></span>
+        </a>
+        <div class="topbar-status">
+          <span class="live-dot"></span>
+          <span>即時模擬 / LIVE SIMULATION</span>
+          <span class="status-divider"></span>
+          <span id="clock">00:00:00</span>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">太陽系探索 / SOLAR SYSTEM EXPLORER <span></span> 2026</p>
+          <h1>看見時間<br /><em>繞著太陽走。</em></h1>
+        </div>
+        <p class="hero-copy">行星的軌跡從不停止。拖曳時間刻度，<br />以你的節奏探索這座星系。<br /><span>Explore the solar system at your own pace.</span></p>
+      </section>
+
+      <section class="dashboard">
+        <aside class="control-panel">
+          <div class="panel-heading">
+            <p>任務控制 / MISSION CONTROL</p>
+            <span>01 / 01</span>
+          </div>
+
+          <div class="control-section">
+            <div class="control-label">
+              <label for="speed">時間速率 / Speed</label>
+              <output id="speed-value" for="speed">1.0×</output>
+            </div>
+            <input id="speed" type="range" min="0" max="6" step="0.1" value="1" aria-label="動畫速率" />
+            <div class="range-scale"><span>靜止 / Still</span><span>光速 / Light speed</span></div>
+          </div>
+
+          <div class="control-section timeline-section">
+            <div class="control-label">
+              <label for="timeline">模擬時間 / Simulation day</label>
+              <output id="date-value" for="timeline">DAY 001</output>
+            </div>
+            <input id="timeline" type="range" min="0" max="365" step="1" value="1" aria-label="模擬日期" />
+            <div class="range-scale"><span>起點 / Start</span><span>一年後 / One year</span></div>
+          </div>
+
+          <div class="control-section">
+            <p class="control-title">視圖選項 / View options</p>
+            <label class="toggle-row">
+              <span>顯示軌道 / Show orbits</span>
+              <input id="orbits-toggle" type="checkbox" checked />
+              <span class="switch"></span>
+            </label>
+            <label class="toggle-row">
+              <span>行星標記 / Planet labels</span>
+              <input id="labels-toggle" type="checkbox" checked />
+              <span class="switch"></span>
+            </label>
+          </div>
+
+          <div class="control-actions">
+            <button class="button primary" id="play-button" type="button">
+              <span class="pause-icon"></span><span id="play-label">暫停 / Pause</span>
+            </button>
+            <button class="button icon-button" id="reset-button" type="button" aria-label="重設模擬">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8.1 8.1 0 1 0 1.1 4.1M20 4v7h-7"/></svg>
+            </button>
+          </div>
+
+          <p class="keyboard-hint"><kbd>SPACE</kbd> 播放 / 暫停 · PLAY / PAUSE</p>
+        </aside>
+
+        <section class="space-view" aria-label="太陽系動畫">
+          <div class="space-header">
+            <div><span class="header-tag">日心視圖 / HELIOCENTRIC</span><span class="header-line"></span><span>非依比例 / NOT TO SCALE</span></div>
+            <button id="focus-button" type="button">全景 / FOCUS: ALL <span>⌄</span></button>
+          </div>
+          <canvas id="solar-system"></canvas>
+          <div class="view-footer">
+            <span>AU <b>0</b></span><span class="footer-line"></span><span>外太陽系 / OUTER SOLAR SYSTEM</span>
+          </div>
+          <div class="planet-tooltip" id="planet-tooltip" hidden>
+            <p id="tooltip-name">地球 / EARTH</p>
+            <span id="tooltip-detail">1.00 AU · 365 天 / DAYS</span>
+          </div>
+        </section>
+      </section>
+
+      <footer>
+        <p>互動天體力學 / INTERACTIVE CELESTIAL MECHANICS</p>
+        <p>拖曳時間軸探索 / DRAG THE TIMELINE <span>↓</span></p>
+      </footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
