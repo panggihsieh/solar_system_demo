@@ -4,6 +4,7 @@ const speedControl = document.querySelector("#speed");
 const timelineControl = document.querySelector("#timeline");
 const speedValue = document.querySelector("#speed-value");
 const humanViewButton = document.querySelector("#human-view-button");
+const humanViewIcon = document.querySelector("#human-view-icon");
 const humanSpeedNote = document.querySelector("#human-speed-note");
 const dateValue = document.querySelector("#date-value");
 const playButton = document.querySelector("#play-button");
@@ -32,6 +33,12 @@ let playing = true;
 let humanPerspective = false;
 let lastFrame = performance.now();
 let renderedPlanets = [];
+const humanIconFrames = [
+  "assets/human-awake.png",
+  "assets/human-active.png",
+  "assets/human-asleep.png",
+];
+let humanIconFrame = 0;
 
 function setRangeFill(input) {
   const percent = ((input.value - input.min) / (input.max - input.min)) * 100;
@@ -149,6 +156,16 @@ humanViewButton.addEventListener("click", () => {
   humanPerspective = !humanPerspective;
   updateControls();
 });
+
+setInterval(() => {
+  if (!humanPerspective) {
+    humanIconFrame = 0;
+    humanViewIcon.src = humanIconFrames[humanIconFrame];
+    return;
+  }
+  humanIconFrame = (humanIconFrame + 1) % humanIconFrames.length;
+  humanViewIcon.src = humanIconFrames[humanIconFrame];
+}, 850);
 timelineControl.addEventListener("input", () => {
   simulationDay = Number(timelineControl.value);
   updateControls();

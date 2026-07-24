@@ -59,9 +59,8 @@ input[type="range"]::-moz-range-thumb { width: 10px; height: 10px; border: 2px s
 .human-view-button { display: flex; width: 34px; height: 34px; align-items: center; justify-content: center; margin-top: 19px; padding: 7px; color: #aebfd7; cursor: pointer; border: 1px solid #334765; background: rgba(79, 116, 168, .08); transition: color .2s, border-color .2s, background .2s, transform .2s; }
 .human-view-button:hover, .human-view-button[aria-pressed="true"] { color: #e4f0ff; border-color: #79a5db; background: rgba(104, 157, 223, .2); }
 .human-view-button:hover { transform: translateY(-1px); }
-.human-view-button svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
-.human-view-button[aria-pressed="true"] svg { animation: human-step .85s ease-in-out infinite alternate; }
-@keyframes human-step { to { transform: translateX(2px) rotate(4deg); } }
+.human-view-icon { display: block; width: 19px; height: 19px; object-fit: contain; filter: invert(1); opacity: .78; }
+.human-view-button[aria-pressed="true"] .human-view-icon { opacity: 1; }
 .human-speed-note { margin: 10px 0 0; color: #8ea7c8; font-size: 10px; line-height: 1.65; }
 .human-speed-note p { margin: 0 0 8px; }
 .human-speed-data { display: grid; gap: 5px; padding: 8px; border-left: 2px solid #6d9fd6; background: rgba(79, 125, 184, .1); font: 9px "DM Mono", monospace; letter-spacing: .02em; }
