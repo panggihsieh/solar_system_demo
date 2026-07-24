@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=10" />
+    <link rel="stylesheet" href="styles.css?v=11" />
   </head>
   <body>
     <main class="app-shell">
@@ -106,6 +106,14 @@
             <button id="focus-button" type="button">全景 / FOCUS: ALL <span>⌄</span></button>
           </div>
           <canvas id="solar-system"></canvas>
+          <figure class="earth-rotation-card" id="earth-rotation-card">
+            <div class="earth-rotation-title">地球自轉 / EARTH ROTATION</div>
+            <div class="earth-gif-stage">
+              <img src="assets/rotating-earth.gif" alt="旋轉中的地球 / Rotating Earth" />
+            </div>
+            <div class="earth-rotation-mode" id="earth-rotation-mode">1.0× SPEED</div>
+            <figcaption>NASA · Public Domain</figcaption>
+          </figure>
           <div class="view-footer">
             <span>AU <b>0</b></span><span class="footer-line"></span><span>外太陽系 / OUTER SOLAR SYSTEM</span>
           </div>
@@ -121,6 +129,6 @@
         <p>拖曳時間軸探索 / DRAG THE TIMELINE <span>↓</span></p>
       </footer>
     </main>
-    <script src="app.js?v=9"></script>
+    <script src="app.js?v=10"></script>
   </body>
 </html>
