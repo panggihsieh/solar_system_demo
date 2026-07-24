@@ -1,6 +1,6 @@
 # 大南國小－看見時間，繞著太陽走
 
-使用 **GitHub Copilot + Zed**（以 ACP 接入 Copilot）快速在三分鐘內生成的太陽系互動 Web App。
+使用 **GitHub Copilot + Zed**（以 ACP 接入 Copilot）快速在三分鐘內生成的太陽系互動 Web App(v0)。
 
 ## 功能
 
