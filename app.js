@@ -34,6 +34,7 @@ let playing = true;
 let perspective = "custom";
 let lastFrame = performance.now();
 let renderedPlanets = [];
+let earthRotationPhase = 0;
 
 function setRangeFill(input) {
   const percent = ((input.value - input.min) / (input.max - input.min)) * 100;
@@ -64,6 +65,68 @@ function resizeCanvas() {
   canvas.width = width * ratio;
   canvas.height = height * ratio;
   context.setTransform(ratio, 0, 0, ratio, 0, 0);
+}
+
+function drawRotatingEarth(x, y, radius) {
+  context.save();
+  context.beginPath();
+  context.arc(x, y, radius, 0, Math.PI * 2);
+  context.clip();
+
+  const ocean = context.createLinearGradient(x - radius, y - radius, x + radius, y + radius);
+  ocean.addColorStop(0, "#9bd4ff");
+  ocean.addColorStop(.5, "#438ee6");
+  ocean.addColorStop(1, "#1a559d");
+  context.fillStyle = ocean;
+  context.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+
+  const landOffset = ((earthRotationPhase * radius * .7) % (radius * 2.5)) - radius * 1.25;
+  context.fillStyle = "rgba(135, 214, 160, .9)";
+  [-1, 0, 1].forEach((index) => {
+    const landX = x + landOffset + index * radius * 2.5;
+    context.beginPath();
+    context.ellipse(landX, y - radius * .18, radius * .38, radius * .7, -.48, 0, Math.PI * 2);
+    context.ellipse(landX + radius * .3, y + radius * .48, radius * .25, radius * .32, .72, 0, Math.PI * 2);
+    context.fill();
+  });
+
+  context.strokeStyle = "rgba(224, 245, 255, .38)";
+  context.lineWidth = Math.max(.5, radius * .035);
+  for (let index = -2; index <= 2; index += 1) {
+    const longitudeX = x + (((index * radius * .72 + earthRotationPhase * radius) % (radius * 3)) - radius * 1.5);
+    context.beginPath();
+    context.ellipse(longitudeX, y, radius * .18, radius * 1.08, 0, 0, Math.PI * 2);
+    context.stroke();
+  }
+  context.restore();
+
+  context.beginPath();
+  context.arc(x, y, radius, 0, Math.PI * 2);
+  context.strokeStyle = "rgba(196, 230, 255, .82)";
+  context.lineWidth = Math.max(1, radius * .045);
+  context.stroke();
+}
+
+function drawEarthRotationIndicator(width, height) {
+  const radius = Math.min(37, Math.max(26, width * .04));
+  const x = Math.max(radius + 30, width * .11);
+  const y = Math.max(radius + 72, height * .2);
+  const mode = perspective === "human" ? "REAL TIME" : perspective === "light" ? "LIGHT SPEED" : `${speedControl.value}× SPEED`;
+
+  context.save();
+  context.fillStyle = "rgba(7, 14, 33, .72)";
+  context.strokeStyle = "rgba(145, 180, 234, .24)";
+  context.lineWidth = 1;
+  context.fillRect(x - radius - 20, y - radius - 31, radius * 2 + 40, radius * 2 + 50);
+  context.strokeRect(x - radius - 20, y - radius - 31, radius * 2 + 40, radius * 2 + 50);
+  context.fillStyle = "rgba(187, 210, 242, .86)";
+  context.font = '9px "DM Mono", monospace';
+  context.fillText("地球自轉 / EARTH ROTATION", x - radius - 11, y - radius - 16);
+  drawRotatingEarth(x, y + 6, radius);
+  context.fillStyle = "rgba(151, 181, 219, .84)";
+  context.font = '8px "DM Mono", monospace';
+  context.fillText(mode, x - radius - 11, y + radius + 22);
+  context.restore();
 }
 
 function draw() {
@@ -119,13 +182,20 @@ function draw() {
       context.stroke();
       context.restore();
     }
-    context.beginPath();
-    context.arc(x, y, planet.size, 0, Math.PI * 2);
-    context.fillStyle = planet.color;
-    context.shadowColor = planet.color;
-    context.shadowBlur = 9;
-    context.fill();
-    context.shadowBlur = 0;
+    if (planet.name === "EARTH") {
+      context.shadowColor = planet.color;
+      context.shadowBlur = 9;
+      drawRotatingEarth(x, y, planet.size);
+      context.shadowBlur = 0;
+    } else {
+      context.beginPath();
+      context.arc(x, y, planet.size, 0, Math.PI * 2);
+      context.fillStyle = planet.color;
+      context.shadowColor = planet.color;
+      context.shadowBlur = 9;
+      context.fill();
+      context.shadowBlur = 0;
+    }
 
     if (labelsToggle.checked) {
       context.fillStyle = "rgba(208, 221, 244, .76)";
@@ -134,6 +204,7 @@ function draw() {
       context.fillText(`${planet.chineseName} / ${planet.name}`, x + planet.size + 7, y - planet.size - 4);
     }
   });
+  drawEarthRotationIndicator(width, height);
 }
 
 function animate(time) {
@@ -144,6 +215,10 @@ function animate(time) {
       ? elapsed / 86_400
       : elapsed * Number(speedControl.value) * 12;
     simulationDay = (simulationDay + daysElapsed) % 366;
+    const rotationRate = perspective === "human"
+      ? Math.PI * 2 / 86_400
+      : Number(speedControl.value) * 1.7;
+    earthRotationPhase = (earthRotationPhase + elapsed * rotationRate) % (Math.PI * 2);
     updateControls();
   }
   draw();
@@ -174,6 +249,7 @@ playButton.addEventListener("click", () => {
 });
 resetButton.addEventListener("click", () => {
   simulationDay = 1;
+  earthRotationPhase = 0;
   speedControl.value = 1;
   playing = true;
   perspective = "custom";
