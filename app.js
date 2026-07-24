@@ -19,6 +19,8 @@ const tooltipDetail = document.querySelector("#tooltip-detail");
 const clock = document.querySelector("#clock");
 const earthRotationCard = document.querySelector("#earth-rotation-card");
 const earthRotationMode = document.querySelector("#earth-rotation-mode");
+const rotatingEarthTexture = new Image();
+rotatingEarthTexture.src = "assets/rotating-earth.gif";
 
 const planets = [
   { name: "MERCURY", chineseName: "水星", radius: 0.18, size: 3, period: 88, color: "#a8a29e", start: 2.4 },
@@ -128,12 +130,17 @@ function draw() {
       context.stroke();
       context.restore();
     }
-    context.beginPath();
-    context.arc(x, y, planet.size, 0, Math.PI * 2);
-    context.fillStyle = planet.color;
     context.shadowColor = planet.color;
     context.shadowBlur = 9;
-    context.fill();
+    if (planet.name === "EARTH" && rotatingEarthTexture.complete) {
+      const earthSize = planet.size * 2.5;
+      context.drawImage(rotatingEarthTexture, x - earthSize / 2, y - earthSize / 2, earthSize, earthSize);
+    } else {
+      context.beginPath();
+      context.arc(x, y, planet.size, 0, Math.PI * 2);
+      context.fillStyle = planet.color;
+      context.fill();
+    }
     context.shadowBlur = 0;
 
     if (labelsToggle.checked) {
