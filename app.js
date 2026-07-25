@@ -5,6 +5,8 @@ const timelineControl = document.querySelector("#timeline");
 const speedValue = document.querySelector("#speed-value");
 const humanViewButton = document.querySelector("#human-view-button");
 const humanSpeedNote = document.querySelector("#human-speed-note");
+const hourViewButton = document.querySelector("#hour-view-button");
+const hourSpeedNote = document.querySelector("#hour-speed-note");
 const lightViewButton = document.querySelector("#light-view-button");
 const lightSpeedNote = document.querySelector("#light-speed-note");
 const dateValue = document.querySelector("#date-value");
@@ -52,17 +54,22 @@ function setRangeFill(input) {
 function updateControls() {
   const speed = Number(speedControl.value);
   const humanPerspective = perspective === "human";
+  const hourPerspective = perspective === "hour";
   const lightPerspective = perspective === "light";
-  const simulatedDaysPerSecond = humanPerspective ? 1 / 86_400 : speed * 12;
-  speedValue.textContent = humanPerspective ? "實時 / REAL TIME" : lightPerspective ? "光速 / LIGHT SPEED" : `${speed.toFixed(1)}×`;
+  const simulatedDaysPerSecond = humanPerspective ? 1 / 86_400 : hourPerspective ? 1 / 24 : speed * 12;
+  speedValue.textContent = humanPerspective ? "實時 / REAL TIME" : hourPerspective ? "小時 / HOUR VIEW" : lightPerspective ? "光速 / LIGHT SPEED" : `${speed.toFixed(1)}×`;
   dateValue.textContent = `DAY ${String(Math.round(simulationDay)).padStart(3, "0")}`;
   timelineControl.value = Math.round(simulationDay);
   humanViewButton.setAttribute("aria-pressed", String(humanPerspective));
+  hourViewButton.setAttribute("aria-pressed", String(hourPerspective));
   lightViewButton.setAttribute("aria-pressed", String(lightPerspective));
   humanSpeedNote.hidden = !humanPerspective;
+  hourSpeedNote.hidden = !hourPerspective;
   lightSpeedNote.hidden = !lightPerspective;
   earthRotationMode.textContent = humanPerspective
     ? "REAL TIME · 1,670 km/h"
+    : hourPerspective
+      ? "1 HOUR/S · 1 TURN/24S"
     : lightPerspective
       ? `72 DAYS/S · 72 TURNS/S`
       : `EARTH: ${simulatedDaysPerSecond.toFixed(1)} TURNS/S`;
@@ -190,7 +197,9 @@ function animate(time) {
   if (playing) {
     const daysElapsed = perspective === "human"
       ? elapsed / 86_400
-      : elapsed * Number(speedControl.value) * 12;
+      : perspective === "hour"
+        ? elapsed / 24
+        : elapsed * Number(speedControl.value) * 12;
     simulationDay = (simulationDay + daysElapsed) % 366;
     updateControls();
   }
@@ -205,6 +214,10 @@ speedControl.addEventListener("input", () => {
 humanViewButton.addEventListener("click", () => {
   perspective = perspective === "human" ? "custom" : "human";
   if (perspective === "human") speedControl.value = 1;
+  updateControls();
+});
+hourViewButton.addEventListener("click", () => {
+  perspective = perspective === "hour" ? "custom" : "hour";
   updateControls();
 });
 lightViewButton.addEventListener("click", () => {
