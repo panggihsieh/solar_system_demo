@@ -65,7 +65,7 @@ function updateControls() {
     ? "REAL TIME · 1,670 km/h"
     : lightPerspective
       ? `72 DAYS/S · 72 TURNS/S`
-      : `${simulatedDaysPerSecond.toFixed(1)} DAYS/S · ${simulatedDaysPerSecond.toFixed(1)} TURNS/S`;
+      : `EARTH: ${simulatedDaysPerSecond.toFixed(1)} TURNS/S`;
   earthFrame = (simulationDay * earthSpriteFrames) % earthSpriteFrames;
   setRangeFill(speedControl);
   setRangeFill(timelineControl);
