@@ -53,6 +53,7 @@ function updateControls() {
   const speed = Number(speedControl.value);
   const humanPerspective = perspective === "human";
   const lightPerspective = perspective === "light";
+  const simulatedDaysPerSecond = humanPerspective ? 1 / 86_400 : speed * 12;
   speedValue.textContent = humanPerspective ? "實時 / REAL TIME" : lightPerspective ? "光速 / LIGHT SPEED" : `${speed.toFixed(1)}×`;
   dateValue.textContent = `DAY ${String(Math.round(simulationDay)).padStart(3, "0")}`;
   timelineControl.value = Math.round(simulationDay);
@@ -60,13 +61,12 @@ function updateControls() {
   lightViewButton.setAttribute("aria-pressed", String(lightPerspective));
   humanSpeedNote.hidden = !humanPerspective;
   lightSpeedNote.hidden = !lightPerspective;
-  const displayedSpeed = humanPerspective ? 1 : speed;
-  const rotationSpeed = Math.round(1_670 * displayedSpeed).toLocaleString();
   earthRotationMode.textContent = humanPerspective
     ? "REAL TIME · 1,670 km/h"
     : lightPerspective
-      ? `LIGHT SPEED · ${rotationSpeed} km/h`
-      : `${speed.toFixed(1)}× · ${rotationSpeed} km/h`;
+      ? `72 DAYS/S · 72 TURNS/S`
+      : `${simulatedDaysPerSecond.toFixed(1)} DAYS/S · ${simulatedDaysPerSecond.toFixed(1)} TURNS/S`;
+  earthFrame = (simulationDay * earthSpriteFrames) % earthSpriteFrames;
   setRangeFill(speedControl);
   setRangeFill(timelineControl);
   playButton.classList.toggle("playing", !playing);
@@ -192,12 +192,6 @@ function animate(time) {
       ? elapsed / 86_400
       : elapsed * Number(speedControl.value) * 12;
     simulationDay = (simulationDay + daysElapsed) % 366;
-    const earthFramesPerSecond = perspective === "human"
-      ? earthSpriteFrames / 86_400
-      : perspective === "light"
-        ? 60
-        : Number(speedControl.value) * 8;
-    earthFrame = (earthFrame + elapsed * earthFramesPerSecond) % earthSpriteFrames;
     updateControls();
   }
   draw();
