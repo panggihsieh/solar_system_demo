@@ -46,7 +46,7 @@ h1 em { color: #a9c5f4; font-weight: 400; font-style: italic; }
 .hero-copy span { color: #7385a3; font: 10px "DM Mono", monospace; letter-spacing: .04em; }
 
 .dashboard { display: grid; grid-template-columns: 292px minmax(0, 1fr); min-height: 760px; border: 1px solid var(--line); background: rgba(8, 14, 34, .58); }
-.control-panel { display: flex; flex-direction: column; padding: 25px 25px 20px; border-right: 1px solid var(--line); background: rgba(3, 8, 23, .35); }
+.control-panel { display: flex; flex-direction: column; height: auto !important; padding: 25px 25px 20px; overflow: visible !important; border-right: 1px solid var(--line); background: rgba(3, 8, 23, .35); }
 .panel-heading { display: flex; justify-content: space-between; color: #8193ae; }
 .panel-heading p { margin: 0; color: #d6e0f0; }
 .control-section { padding: 29px 0 25px; border-bottom: 1px solid var(--line); }
