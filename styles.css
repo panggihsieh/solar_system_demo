@@ -105,7 +105,7 @@ kbd { padding: 2px 4px; border: 1px solid #43516b; border-radius: 2px; color: #9
 .earth-rotation-title, .earth-rotation-mode, .earth-rotation-card figcaption { font: 9px "DM Mono", monospace; letter-spacing: .06em; }
 .earth-rotation-title { color: #c5dcfb; }
 .earth-gif-stage { display: grid; height: 104px; margin: 8px 0; place-items: center; overflow: hidden; background: radial-gradient(circle, rgba(48, 93, 164, .24), transparent 68%); }
-.earth-gif-stage canvas { display: block; width: 44px; height: 44px; }
+.earth-gif-stage canvas { display: block; width: 66px; height: 66px; }
 .earth-rotation-mode { color: #a9c9ef; }
 .earth-rotation-card figcaption { margin-top: 7px; color: #657a9d; font-size: 7px; }
 .view-footer { bottom: 23px; justify-content: flex-start; gap: 9px; }
@@ -131,6 +131,6 @@ footer span { color: #a5c3f2; margin-left: 7px; }
   .space-view { min-height: 480px; }
   .earth-rotation-card { top: 54px; left: 15px; width: 142px; padding: 8px; }
   .earth-gif-stage { height: 88px; }
-  .earth-gif-stage canvas { width: 37px; height: 37px; }
+  .earth-gif-stage canvas { width: 56px; height: 56px; }
   footer { font-size: 8px; }
 }
