@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=14" />
+    <link rel="stylesheet" href="styles.css?v=15" />
   </head>
   <body>
     <main class="app-shell">
@@ -51,8 +51,8 @@
               <button class="human-view-button" id="human-view-button" type="button" aria-label="人類視角 / Human view" title="人類視角 / Human view" aria-pressed="false">
                 <img class="human-view-icon" src="assets/human-cycle.gif" alt="" />
               </button>
-              <button class="hour-view-button" id="hour-view-button" type="button" aria-label="小時視角 / Hour view" title="小時視角 / Hour view" aria-pressed="false">
-                <span class="hour-symbol" aria-hidden="true">1H</span>
+              <button class="hour-view-button light-view-button" id="hour-view-button" type="button" aria-label="小時視角 / Hour view" title="小時視角 / Hour view" aria-pressed="false" style="width:34px;height:34px;padding:7px;">
+                <span class="hour-symbol" aria-hidden="true" style="font:600 11px 'DM Mono', monospace;">1H</span>
               </button>
               <button class="light-view-button" id="light-view-button" type="button" aria-label="光速視角 / Light-speed view" title="光速視角 / Light-speed view" aria-pressed="false">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13.2 2-8 11h5.7L10.8 22l8-12h-5.6z"/></svg>
@@ -65,7 +65,7 @@
                 <span>繞日公轉 / ORBIT <b>約 107,000 km/h</b></span>
               </div>
             </div>
-            <p class="hour-speed-note" id="hour-speed-note" hidden>小時視角：1 秒 = 1 模擬小時；地球 24 秒自轉一圈。<br />Hour view: 1 second = 1 simulated hour.</p>
+            <p class="light-speed-note hour-speed-note" id="hour-speed-note" hidden>小時視角：1 秒 = 1 模擬小時；地球 24 秒自轉一圈。<br />Hour view: 1 second = 1 simulated hour.</p>
             <p class="light-speed-note" id="light-speed-note" hidden>光速視角：以最大動畫速率快速觀察公轉週期。<br />Light-speed view: maximum simulation speed.</p>
           </div>
 
