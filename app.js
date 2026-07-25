@@ -56,12 +56,17 @@ function updateControls() {
   speedValue.textContent = humanPerspective ? "實時 / REAL TIME" : lightPerspective ? "光速 / LIGHT SPEED" : `${speed.toFixed(1)}×`;
   dateValue.textContent = `DAY ${String(Math.round(simulationDay)).padStart(3, "0")}`;
   timelineControl.value = Math.round(simulationDay);
-  speedControl.disabled = humanPerspective;
   humanViewButton.setAttribute("aria-pressed", String(humanPerspective));
   lightViewButton.setAttribute("aria-pressed", String(lightPerspective));
   humanSpeedNote.hidden = !humanPerspective;
   lightSpeedNote.hidden = !lightPerspective;
-  earthRotationMode.textContent = humanPerspective ? "REAL TIME" : lightPerspective ? "LIGHT SPEED" : `${speed.toFixed(1)}× SPEED`;
+  const displayedSpeed = humanPerspective ? 1 : speed;
+  const rotationSpeed = Math.round(1_670 * displayedSpeed).toLocaleString();
+  earthRotationMode.textContent = humanPerspective
+    ? "REAL TIME · 1,670 km/h"
+    : lightPerspective
+      ? `LIGHT SPEED · ${rotationSpeed} km/h`
+      : `${speed.toFixed(1)}× · ${rotationSpeed} km/h`;
   setRangeFill(speedControl);
   setRangeFill(timelineControl);
   playButton.classList.toggle("playing", !playing);
@@ -205,6 +210,7 @@ speedControl.addEventListener("input", () => {
 });
 humanViewButton.addEventListener("click", () => {
   perspective = perspective === "human" ? "custom" : "human";
+  if (perspective === "human") speedControl.value = 1;
   updateControls();
 });
 lightViewButton.addEventListener("click", () => {
