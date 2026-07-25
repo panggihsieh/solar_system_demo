@@ -101,11 +101,11 @@ kbd { padding: 2px 4px; border: 1px solid #43516b; border-radius: 2px; color: #9
 .space-header button { pointer-events: auto; color: #aab9ce; cursor: pointer; border: 0; background: transparent; font: inherit; letter-spacing: inherit; }
 .space-header button span { margin-left: 5px; color: #fff; }
 #solar-system { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; cursor: crosshair; }
-.earth-rotation-card { position: absolute; z-index: 3; top: 64px; left: 27px; width: 230px; margin: 0; padding: 11px; border: 1px solid rgba(145, 180, 234, .32); background: rgba(7, 14, 33, .8); box-shadow: 0 8px 28px rgba(0, 0, 0, .25); }
+.earth-rotation-card { position: absolute; z-index: 3; top: 64px; left: 27px; width: 168px; margin: 0; padding: 11px; border: 1px solid rgba(145, 180, 234, .32); background: rgba(7, 14, 33, .8); box-shadow: 0 8px 28px rgba(0, 0, 0, .25); }
 .earth-rotation-title, .earth-rotation-mode, .earth-rotation-card figcaption { font: 9px "DM Mono", monospace; letter-spacing: .06em; }
 .earth-rotation-title { color: #c5dcfb; }
-.earth-gif-stage { display: grid; height: 175px; margin: 8px 0; place-items: center; overflow: hidden; background: radial-gradient(circle, rgba(48, 93, 164, .24), transparent 68%); }
-.earth-gif-stage canvas { display: block; width: 132px; height: 132px; }
+.earth-gif-stage { display: grid; height: 112px; margin: 8px 0; place-items: center; overflow: hidden; background: radial-gradient(circle, rgba(48, 93, 164, .24), transparent 68%); }
+.earth-gif-stage canvas { display: block; width: 106px; height: 106px; }
 .earth-rotation-mode { color: #a9c9ef; }
 .earth-rotation-card figcaption { margin-top: 7px; color: #657a9d; font-size: 7px; }
 .view-footer { bottom: 23px; justify-content: flex-start; gap: 9px; }
@@ -129,8 +129,8 @@ footer span { color: #a5c3f2; margin-left: 7px; }
   .control-actions { margin-top: 0; padding-top: 20px; }
   .keyboard-hint { display: none; }
   .space-view { min-height: 480px; }
-  .earth-rotation-card { top: 54px; left: 15px; width: 185px; padding: 8px; }
-  .earth-gif-stage { height: 140px; }
-  .earth-gif-stage canvas { width: 106px; height: 106px; }
+  .earth-rotation-card { top: 54px; left: 15px; width: 142px; padding: 8px; }
+  .earth-gif-stage { height: 92px; }
+  .earth-gif-stage canvas { width: 86px; height: 86px; }
   footer { font-size: 8px; }
 }
