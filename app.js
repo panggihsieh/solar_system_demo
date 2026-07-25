@@ -41,7 +41,7 @@ const planets = [
 
 let simulationDay = 1;
 let playing = true;
-let perspective = "custom";
+let perspective = "hour";
 let lastFrame = performance.now();
 let renderedPlanets = [];
 let earthFrame = 0;
