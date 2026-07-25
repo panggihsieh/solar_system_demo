@@ -109,7 +109,7 @@ function drawEarthFrame(target, x, y, size) {
 
 function drawEarthRotationObserver() {
   earthRotationContext.clearRect(0, 0, earthRotationCanvas.width, earthRotationCanvas.height);
-  if (!drawEarthFrame(earthRotationContext, 96, 96, 111)) {
+  if (!drawEarthFrame(earthRotationContext, 96, 96, 222)) {
     earthRotationContext.beginPath();
     earthRotationContext.arc(96, 96, 70, 0, Math.PI * 2);
     earthRotationContext.fillStyle = "#438ee6";
